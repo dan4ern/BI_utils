@@ -23,3 +23,11 @@ def check_gc_content(gc_bound, read_from_main):
         return read_gc >= gc_bound[0] and read_gc <= gc_bound[1]
     else:
         return read_gc <= gc_bound
+
+# Check read length
+def check_length(length_bounds, read_from_main):
+    read_length = len(read_from_main[1].replace('\n', ''))
+    if not isinstance(length_bounds, int) and not isinstance(length_bounds, float):
+        return length_bounds[0] <= read_length <= length_bounds[1]
+    else:
+        return read_length <= length_bounds
