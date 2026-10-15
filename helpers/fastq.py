@@ -1,19 +1,5 @@
 import os
 
-# Main filtering function
-def filter_fastq(input_fastq,
-                 output_fastq,
-                 gc_bounds = (0, 100),
-                 length_bounds = (0, 2**32),
-                 quality_threshold = 0):
-    reads = read_fastq(input_fastq = input_fastq)
-    filtered_reads = []
-    for read in reads:
-        if check_gc_content(gc_bounds = gc_bounds, read_from_main = read) and check_length(length_bounds = length_bounds, read_from_main = read) and check_quality_threshold(quality_threshold = quality_threshold, read_from_main = read):
-            filtered_reads.append(read)
-    write_fastq(filtered_reads = filtered_reads, output_fastq = output_fastq)
-    return 'Filtration finished!'
-
 # Read .fastq function
 def read_fastq(input_fastq):
     with open(input_fastq) as inp_fastq:
