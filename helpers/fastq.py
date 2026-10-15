@@ -1,8 +1,18 @@
 import os
 
 # Main filtering function
-def filter_fastq(input_fastq, output_fastq, gc_bounds = (0, 100), length_bounds = (0, 2**32), quality_threshold = 0):
-    pass
+def filter_fastq(input_fastq,
+                 output_fastq,
+                 gc_bounds = (0, 100),
+                 length_bounds = (0, 2**32),
+                 quality_threshold = 0):
+    reads = read_fastq(input_fastq = input_fastq)
+    filtered_reads = []
+    for read in reads:
+        if check_gc_content(gc_bounds = gc_bounds, read_from_main = read) and check_length(length_bounds = length_bounds, read_from_main = read) and check_quality_threshold(quality_threshold = quality_threshold, read_from_main = read):
+            filtered_reads.append(read)
+    write_fastq(filtered_reads = filtered_reads, output_fastq = output_fastq)
+    return 'Filtration finished!'
 
 # Read .fastq function
 def read_fastq(input_fastq):
@@ -17,12 +27,12 @@ def read_fastq(input_fastq):
         return reads
 
 # Check GC content function
-def check_gc_content(gc_bound, read_from_main):
+def check_gc_content(gc_bounds, read_from_main):
     read_gc = (read_from_main[1].count("G") + read_from_main[1].count("C")) / len(read_from_main[1].replace('\n', '')) * 100
-    if not isinstance(gc_bound, int) and not isinstance(gc_bound, float):
-        return read_gc >= gc_bound[0] and read_gc <= gc_bound[1]
+    if not isinstance(gc_bounds, int) and not isinstance(gc_bounds, float):
+        return read_gc >= gc_bounds[0] and read_gc <= gc_bounds[1]
     else:
-        return read_gc <= gc_bound
+        return read_gc <= gc_bounds
 
 # Check read length
 def check_length(length_bounds, read_from_main):
@@ -52,4 +62,3 @@ def write_fastq(filtered_reads, output_fastq):
         with open(output_path, mode = 'w') as output:
             for read in filtered_reads:
                 output.writelines(read)
-    return True
