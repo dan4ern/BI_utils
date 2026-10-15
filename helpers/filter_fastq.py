@@ -33,9 +33,23 @@ def check_length(length_bounds, read_from_main):
         return read_length <= length_bounds
 
 # Check phred33 quality
-def check_quality_threshold(read_from_main, quality_threshold):
-    length = len(read_from_main[3])
+def check_quality_threshold(quality_threshold, read_from_main):
+    clean_quality_string = read_from_main[3].replace('\n', '')
+    length = len(clean_quality_string)
     summ_quality = 0
-    for n in read_from_main[3]:
+    for n in clean_quality_string:
         summ_quality += ord(n) - 33
     return summ_quality / length >= quality_threshold
+
+# Write .fastq function
+def write_fastq(filtered_reads, output_fastq):
+    if not os.path.isdir('filtered'):
+        os.mkdir('filtered')
+    output_path = os.path.join("filtered", output_fastq)
+    if os.path.isfile(output_path):
+        raise Exception('Output_fastq already exists. Choose another name.')
+    else:
+        with open(output_path, mode = 'w') as output:
+            for read in filtered_reads:
+                output.writelines(read)
+    return True
