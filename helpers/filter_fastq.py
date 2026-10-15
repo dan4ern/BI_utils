@@ -31,3 +31,11 @@ def check_length(length_bounds, read_from_main):
         return length_bounds[0] <= read_length <= length_bounds[1]
     else:
         return read_length <= length_bounds
+
+# Check phred33 quality
+def check_quality_threshold(read_from_main, quality_threshold):
+    length = len(read_from_main[3])
+    summ_quality = 0
+    for n in read_from_main[3]:
+        summ_quality += ord(n) - 33
+    return summ_quality / length >= quality_threshold
