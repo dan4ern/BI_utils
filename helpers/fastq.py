@@ -1,7 +1,7 @@
 import os
 
 # Read .fastq function
-def read_fastq(input_fastq):
+def read_fastq(input_fastq: str) -> list[list[str]]:
     """
     Helper function for filter_fastq() function
     Reads and parses .fastq
@@ -22,12 +22,13 @@ def read_fastq(input_fastq):
         return reads
 
 # Check GC content function
-def check_gc_content(gc_bounds, read_from_main):
+def check_gc_content(gc_bounds: int | float | list | tuple,
+                    read_from_main: list[str]) -> bool:
     """
     Helper function for filter_fastq() function
-    Checks if GC-content of read is within acceptable bounds
+    Checks if GC-content of read is within acceptable bounds (inclusively)
 
-    Argument:
+    Arguments:
     gc_bounds: int / float or list / tuple of two numbers. A single number sets the upper bound
     read_from_main: list
 
@@ -41,12 +42,13 @@ def check_gc_content(gc_bounds, read_from_main):
         return read_gc <= gc_bounds
 
 # Check read length
-def check_length(length_bounds, read_from_main):
+def check_length(length_bounds: int | float | list | tuple,
+                read_from_main: list[str]) -> bool:
     """
     Helper function for filter_fastq() function
-    Checks if read length is within acceptable bounds
+    Checks if read length is within acceptable bounds (inclusively)
 
-    Argument:
+    Arguments:
     length_bounds: int / float or list / tuple of two numbers. A single number sets the upper bound
     read_from_main: list
 
@@ -59,12 +61,13 @@ def check_length(length_bounds, read_from_main):
         return read_length <= length_bounds
 
 # Check phred33 quality
-def check_quality_threshold(quality_threshold, read_from_main):
+def check_quality_threshold(quality_threshold: int | float,
+                            read_from_main: list[str]) -> bool:
     """
     Helper function for filter_fastq() function
     Checks if mean read phred33 quality is greater than or equal to selected threshold
 
-    Argument:
+    Arguments:
     quality_threshold: int / float
     read_from_main: list
 
@@ -78,7 +81,8 @@ def check_quality_threshold(quality_threshold, read_from_main):
     return summ_quality / length >= quality_threshold
 
 # Write .fastq function
-def write_fastq(filtered_reads, output_fastq):
+def write_fastq(filtered_reads: list[list[str]],
+                output_fastq: str) -> None:
     """
     Helper function for filter_fastq() function
     Saves results of .fastq filtering to .fastq file in ./filtered/ folder

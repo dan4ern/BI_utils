@@ -1,7 +1,7 @@
 import os
 
 # Read fasta function
-def read_fasta(input_fasta):
+def read_fasta(input_fasta: str) -> list[list[str]]:
     """
     Helper function for convert_multiline_fasta_to_oneline() function
     Reads and parses .fasta
@@ -27,14 +27,15 @@ def read_fasta(input_fasta):
     return seqs
 
 # Write oneline fasta
-def write_fasta(fasta_one_line, output_fasta = None):
+def write_fasta(fasta_one_line: list[list[str]],
+                output_fasta: str | None = None) -> None:
     """
     Helper function for convert_multiline_fasta_to_oneline() function
     Saves results of input .fasta conversion in .fasta format
 
     Arguments:
     fasta_one_line: list of lists
-    output_fasta: str. Path to the output .fasta file. Optional, if not chosen - "output_fasta.fasta" is used
+    output_fasta: str or None. Path to the output .fasta file. Optional, if not chosen - "output_fasta.fasta" is used
 
     Raises exception if output file with selected name already exists
     """
@@ -49,7 +50,7 @@ def write_fasta(fasta_one_line, output_fasta = None):
                 output.write(seq[1] + '\n')
 
 # Read blast.txt file
-def read_blast(input_file):
+def read_blast(input_file: str) -> list[list[str]]:
     """
     Helper function for parse_blast_output() function
     Reads and parses .txt blast results
@@ -71,7 +72,8 @@ def read_blast(input_file):
     return blasts
 
 # Write blast filtering/parsing output
-def write_blast(output_file, hits):
+def write_blast(output_file: str,
+                hits: list[str]) -> None:
     """
     Helper function for parse_blast_output() function
     Saves results of BLAST filtering/parsing to file, each selected hit of BLAST as separate line

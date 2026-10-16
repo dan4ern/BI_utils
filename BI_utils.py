@@ -2,15 +2,15 @@ import os
 from helpers import bio_files, fastq
 
 # Fastq filtering function, uses helper.fastq functions
-def filter_fastq(input_fastq,
-                 output_fastq,
-                 gc_bounds = (0, 100),
-                 length_bounds = (0, 2**32),
-                 quality_threshold = 0):
+def filter_fastq(input_fastq: str,
+                output_fastq: str,
+                gc_bounds: int | float | list | tuple = (0, 100),
+                length_bounds: int | float | list | tuple = (0, 2**32),
+                quality_threshold: int | float = 0) -> str:
     """
     Reads and parses .fastq, filters reads based on selected parameters (GC-content, length, mean quality), saves results in output .fastq file in ./filtered/ folder
 
-    Argument:
+    Arguments:
     input_fastq: str. Path to the input .fastq file
     output_fastq: str. Path to the output .fastq file
     gc_bounds: int / float or list / tuple of two numbers. A single number sets the upper bound. Default=(0, 100)
@@ -30,11 +30,13 @@ def filter_fastq(input_fastq,
     return 'Filtration finished!'
 
 # Multiline to oneline fasta converter, uses helper.bio_files functions
-def convert_multiline_fasta_to_oneline(input_fasta, output_fasta = None):
+def convert_multiline_fasta_to_oneline(
+    input_fasta: str,
+    output_fasta: str | None = None) -> str:
     """
     Reads and parse multiline .fasta. Converts multiline .fasta to oneline .fasta for each entity and saves it
 
-    Argument:
+    Arguments:
     input_fasta: str. Path to the input .fasta file
     output_fasta: str or None. If None, saves to output_fasta.fasta
     
@@ -51,12 +53,13 @@ def convert_multiline_fasta_to_oneline(input_fasta, output_fasta = None):
     return 'Conversion finished!'
 
 # BLAST file parsing and filtering
-def parse_blast_output(input_file, output_file):
+def parse_blast_output(input_file: str,
+                       output_file: str) -> str:
     """
     Reads and parses BLAST .txt output, for each query extracts first hit description, sorts the descriptions
 alphabetically. Saves selected hits as separate file, each hit in a separate line
 
-    Argument:
+    Arguments:
     input_file: str. Path to the input .txt file
     output_file: str. Path to the outnput file
     
