@@ -15,7 +15,6 @@ def filter_fastq(input_fastq,
     fastq.write_fastq(filtered_reads = filtered_reads, output_fastq = output_fastq)
     return 'Filtration finished!'
 
-
 # Multiline to oneline fasta converter, uses helper.bio_files functions
 def convert_multiline_fasta_to_oneline(input_fasta, output_fasta = None):
     seqs = bio_files.read_fasta(input_fasta = input_fasta)
@@ -26,3 +25,15 @@ def convert_multiline_fasta_to_oneline(input_fasta, output_fasta = None):
         oneline_seqs.append([header, sequence])
     bio_files.write_fasta(fasta_one_line = oneline_seqs, output_fasta = output_fasta)
     return 'Conversion finished!'
+
+# BLAST file parsing and filtering
+def parse_blast_output(input_file, output_file):
+    blasts = bio_files.read_blast(input_file = input_file)
+    hits = []
+    for blast in blasts:
+        description_end = blast[1].index('Name')
+        first_hit = blast[2][:description_end].strip()
+        hits.append(first_hit)
+    hits.sort()
+    bio_files.write_blast(output_file = output_file, hits = hits)
+    return 'BLAST parsing finished!'

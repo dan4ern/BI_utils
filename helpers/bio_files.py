@@ -32,12 +32,14 @@ def write_fasta(fasta_one_line, output_fasta = None):
 # Read blast.txt file
 def read_blast(input_file):
     blasts = []
-    with open(input_file) as inp_blast:
-    for line in inp_blast:
-        if line.startswith('Query #'):
-            for _ in range(4):
-                inp_blast.readline()
-            blasts.append([line, inp_blast.readline()])
+    with open('example_blast_results.txt') as inp_blast:
+        for line in inp_blast:
+            if line.startswith('Query #'):
+                for _ in range(3):
+                    inp_blast.readline()
+                columns = inp_blast.readline()
+                first_blast = inp_blast.readline()
+                blasts.append([line, columns, first_blast])
     return blasts
 
 # Write blast filtering output
@@ -47,4 +49,3 @@ def write_blast(output_file, hits):
     with open(output_file, mode = 'w') as out_blast:
         for hit in hits:
             out_blast.write(hit + '\n')
-    return 'BLAST parsing finished!'
