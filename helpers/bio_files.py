@@ -2,7 +2,7 @@ import os
 
 # Read fasta function
 def read_fasta(input_fasta):
-    with open('example_multiline_fasta.fasta') as inp_fasta:
+    with open(input_fasta) as inp_fasta:
         seqs = []
         seq = []
         for line in inp_fasta:
@@ -20,7 +20,7 @@ def read_fasta(input_fasta):
 # Write oneline fasta
 def write_fasta(fasta_one_line, output_fasta = None):
     if output_fasta == None:
-        output_fasta = 'output_fasta.fasta'
+        output_fasta = './output_fasta.fasta'
     if os.path.isfile(output_fasta):
         raise Exception('Output fasta file with this name already exists. Choose another name.')
     else:
